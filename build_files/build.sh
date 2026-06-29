@@ -18,7 +18,6 @@ enable_copr() {
 # --- ACTIVATION DES COPRS REQUIS ---
 enable_copr "solopasha/hyprland"
 enable_copr "erikreider/SwayNotificationCenter"
-enable_copr
 
 
 ### Install packages
