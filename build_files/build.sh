@@ -1,16 +1,21 @@
 #!/bin/bash
 
+RELEASE="$(rpm -E %fedora)"
+
+
+cp -avf "/ctx/system_files"/. /
+
 set -ouex pipefail
 
-# RELEASE="$(rpm -E %fedora)"
+# if true, sddm will be installed as the display manager.
+# NOTE: NOT FULLY IMPLEMENTED AND UNTESTED, DO NOT USE YET
+USE_SDDM=FALSE
+
 
 log() {
 	echo "=== $* ==="
 }
 
-# if true, sddm will be installed as the display manager.
-# NOTE: NOT FULLY IMPLEMENTED AND UNTESTED, DO NOT USE YET
-USE_SDDM=FALSE
 
 #######################################################################
 # Setup Repositories
@@ -34,6 +39,7 @@ for repo in "${COPR_REPOS[@]}"; do
 		log "Warning: Failed to enable COPR repo $repo (may not support Fedora $RELEASE)"
 	fi
 done
+
 
 # log "Enable terra repositories..."
 # Bazzite disabled this for some reason so lets re-enable it again
@@ -60,6 +66,9 @@ FONTS=(
 	fontawesome-fonts-all
 	google-noto-emoji-fonts
 )
+
+
+
 
 # Hyprland dependencies to be installed, based on
 # https://github.com/JaKooLit/Fedora-Hyprland/ with additions
@@ -137,18 +146,12 @@ HYPR_PKGS=(
 	xdg-desktop-portal-hyprland
 	hyprsunset
 	hyprutils
+
+    hyprsysteminfo
+    hyprpolkitagent
+    hyprland-qt-support
 )
 
-# Detect if we're on Bazzite (has KDE/Qt 6.10) or Bluefin (has GNOME/Qt 6.9)
-# These Qt-dependent packages only work on Bluefin currently due to Qt version mismatch
-if ! grep -qi "bazzite" /usr/lib/os-release 2>/dev/null; then
-	# Only add Qt-dependent packages on Bluefin
-	HYPR_PKGS+=(
-		hyprsysteminfo
-		hyprpolkitagent
-		hyprland-qt-support
-	)
-fi
 
 # Niri and its dependencies from its default config.
 # commented out packages are already referenced in this file, OR they
@@ -167,6 +170,7 @@ NIRI_PKGS=(
 	# xdg-desktop-portal-gnome
 	# xdg-desktop-portal-gtk
 )
+
 
 # SDDM not set up properly yet, so this is just a placeholder.
 # For now you'll have to invoke Hyprland from the command line.
@@ -197,6 +201,17 @@ ADDITIONAL_SYSTEM_APPS=(
 	thunar-archive-plugin
 )
 
+
+### Install packages
+
+# Packages can be installed from any enabled yum repo on the image.
+# RPMfusion repos are available by default in ublue main images
+# List of rpmfusion packages can be found here:
+# https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
+
+# this installs a package from fedora repos
+dnf5 remove -y fish
+
 # we do all package installs in one rpm-ostree command
 # so that we create minimal layers in the final image
 log "Installing packages using dnf5..."
@@ -207,6 +222,7 @@ dnf5 install --setopt=install_weak_deps=False -y \
 	"${NIRI_PKGS[@]}" \
 	"${SDDM_PACKAGES[@]}" \
 	"${ADDITIONAL_SYSTEM_APPS[@]}"
+
 
 #######################################################################
 ### Disable repositeories so they aren't cluttering up the final image
@@ -235,3 +251,19 @@ if [[ $USE_SDDM == TRUE ]]; then
 	systemctl set-default graphical.target
 	systemctl enable sddm.service
 fi
+
+
+# Use a COPR Example:
+#
+# dnf5 -y copr enable ublue-os/staging
+# dnf5 -y install package
+# Disable COPRs so they don't end up enabled on the final image:
+# dnf5 -y copr disable ublue-os/staging
+
+#### Example for enabling a System Unit File
+
+systemctl enable podman.socket
+systemctl disable gdm
+systemctl enable sddm
+
+mkdir -p /nix/var/nix/gcroots/per-user/bazzite
