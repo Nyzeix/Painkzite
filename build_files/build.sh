@@ -194,7 +194,7 @@ ADDITIONAL_SYSTEM_APPS=(
 	thunar-archive-plugin
 )
 
-COOL_APPS= (
+COOL_APPS=(
     vicinae
     waybar
 )
