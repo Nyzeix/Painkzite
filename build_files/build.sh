@@ -18,16 +18,17 @@ USE_SDDM=FALSE
 
 log "Enable Copr repos..."
 COPR_REPOS=(
-	erikreider/SwayNotificationCenter # for swaync
-	errornointernet/packages
-	heus-sueh/packages                # for matugen/swww, needed by hyprpanel
-	leloubil/wl-clip-persist
+	#erikreider/SwayNotificationCenter # for swaync
+	#errornointernet/packages
+	#heus-sueh/packages                # for matugen/swww, needed by hyprpanel
+	#leloubil/wl-clip-persist
 	# pgdev/ghostty
-	solopasha/hyprland
-	tofik/sway
-	ulysg/xwayland-satellite
-	yalter/niri
+	#solopasha/hyprland
+	#tofik/sway
+	#ulysg/xwayland-satellite
+	#yalter/niri
 )
+
 for repo in "${COPR_REPOS[@]}"; do
 	# Try to enable the repo, but don't fail the build if it doesn't support this Fedora version
 	if ! dnf5 -y copr enable "$repo" 2>&1; then
@@ -65,6 +66,7 @@ FONTS=(
 # https://github.com/JaKooLit/Fedora-Hyprland/ with additions
 # from ml4w and other sources.
 HYPR_DEPS=(
+
 	aquamarine
 	aylurs-gtk-shell2
 	blueman
@@ -150,6 +152,29 @@ if ! grep -qi "bazzite" /usr/lib/os-release 2>/dev/null; then
 	)
 fi
 
+# Waybar dependency
+WAYBAR_DEPS=(
+    gtkmm3
+    jsoncpp
+    libsigc++
+    fmt
+    wayland
+    chrono-date
+    spdlog
+    libgtk-3-dev [gtk-layer-shell]
+    gobject-introspection [gtk-layer-shell]
+    libgirepository1.0-dev [gtk-layer-shell]
+    libpulse [Pulseaudio module]
+    libnl [Network module]
+    libappindicator-gtk3 [Tray module]
+    libdbusmenu-gtk3 [Tray module]
+    libmpdclient [MPD module]
+    libsndio [sndio module]
+    libevdev [KeyboardState module]
+    xkbregistry
+    upower [UPower battery module]
+)
+
 # Niri and its dependencies from its default config.
 # commented out packages are already referenced in this file, OR they
 # are prebundled inside our parent image.
@@ -202,11 +227,12 @@ ADDITIONAL_SYSTEM_APPS=(
 log "Installing packages using dnf5..."
 dnf5 install --setopt=install_weak_deps=False -y \
 	"${FONTS[@]}" \
-	"${HYPR_DEPS[@]}" \
-	"${HYPR_PKGS[@]}" \
-	"${NIRI_PKGS[@]}" \
 	"${SDDM_PACKAGES[@]}" \
-	"${ADDITIONAL_SYSTEM_APPS[@]}"
+	"${ADDITIONAL_SYSTEM_APPS[@]}" \
+    "waybar"
+	#"${HYPR_DEPS[@]}" \
+	#"${HYPR_PKGS[@]}" \
+	#"${NIRI_PKGS[@]}" \
 
 #######################################################################
 ### Disable repositeories so they aren't cluttering up the final image
