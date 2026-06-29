@@ -23,7 +23,6 @@ enable_copr() {
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
-dnf5 install -y tmux
 dnf5 remove -y fish
 
 dnf5 install -y --setopt=install_weak_deps=False \
@@ -47,7 +46,7 @@ dnf5 install -y --setopt=install_weak_deps=False \
     wofi \
     rofi \
     swaync \
-    wl-clipboard \
+    #wl-clipboard \
     grim \
     brightnessctl \
     pavucontrol \
@@ -58,12 +57,12 @@ dnf5 install -y --setopt=install_weak_deps=False \
     pavucontrol \
     SwayNotificationCenter \
     NetworkManager-tui \
-    tmux \
-    ghostty \
+    #tmux \
+    #ghostty \
     wezterm \
     blueman \
-    qt5-qtwayland \
-    qt6-qtwayland \
+    #qt5-qtwayland \
+    #qt6-qtwayland \
     sddm
 
 # Disable COPRs so they don't end up enabled on the final image:
