@@ -15,6 +15,12 @@ enable_copr() {
         -O "/etc/yum.repos.d/_copr_${repo_with_dash}.repo"
 }
 
+# --- ACTIVATION DES COPRS REQUIS ---
+enable_copr "solopasha/hyprland"
+enable_copr "erikreider/SwayNotificationCenter"
+enable_copr
+
+
 ### Install packages
 
 # Packages can be installed from any enabled yum repo on the image.
@@ -46,7 +52,6 @@ dnf5 install -y --setopt=install_weak_deps=False \
     wofi \
     rofi \
     swaync \
-    #wl-clipboard \
     grim \
     brightnessctl \
     pavucontrol \
@@ -57,12 +62,8 @@ dnf5 install -y --setopt=install_weak_deps=False \
     pavucontrol \
     SwayNotificationCenter \
     NetworkManager-tui \
-    #tmux \
-    #ghostty \
     wezterm \
     blueman \
-    #qt5-qtwayland \
-    #qt6-qtwayland \
     sddm
 
 # Disable COPRs so they don't end up enabled on the final image:
