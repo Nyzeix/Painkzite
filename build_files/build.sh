@@ -27,6 +27,8 @@ COPR_REPOS=(
 	#tofik/sway
 	#ulysg/xwayland-satellite
 	#yalter/niri
+
+    quadratech188/vicinae # Raycast inspired launcher 
 )
 
 for repo in "${COPR_REPOS[@]}"; do
@@ -141,16 +143,6 @@ HYPR_PKGS=(
 	hyprutils
 )
 
-# Detect if we're on Bazzite (has KDE/Qt 6.10) or Bluefin (has GNOME/Qt 6.9)
-# These Qt-dependent packages only work on Bluefin currently due to Qt version mismatch
-if ! grep -qi "bazzite" /usr/lib/os-release 2>/dev/null; then
-	# Only add Qt-dependent packages on Bluefin
-	HYPR_PKGS+=(
-		hyprsysteminfo
-		hyprpolkitagent
-		hyprland-qt-support
-	)
-fi
 
 # Waybar dependency
 WAYBAR_DEPS=(
@@ -175,23 +167,6 @@ WAYBAR_DEPS=(
     upower [UPower battery module]
 )
 
-# Niri and its dependencies from its default config.
-# commented out packages are already referenced in this file, OR they
-# are prebundled inside our parent image.
-NIRI_PKGS=(
-	niri
-	swaylock
-	# alacritty
-	# brightnessctl
-	# fuzzel
-	# mako
-	# waybar
-	# xwayland-satellite
-	# gnome-keyring
-	# wireplumber
-	# xdg-desktop-portal-gnome
-	# xdg-desktop-portal-gtk
-)
 
 # SDDM not set up properly yet, so this is just a placeholder.
 # For now you'll have to invoke Hyprland from the command line.
@@ -214,12 +189,14 @@ ADDITIONAL_SYSTEM_APPS=(
 	# ghostty is broken in Fedora 42 right now
 	# ghostty
 
-	kitty
-	kitty-terminfo
-
 	thunar
 	thunar-volman
 	thunar-archive-plugin
+)
+
+COOL_APPS= (
+    vicinae
+    waybar
 )
 
 # we do all package installs in one rpm-ostree command
@@ -229,10 +206,8 @@ dnf5 install --setopt=install_weak_deps=False -y \
 	"${FONTS[@]}" \
 	"${SDDM_PACKAGES[@]}" \
 	"${ADDITIONAL_SYSTEM_APPS[@]}" \
-    "waybar"
 	#"${HYPR_DEPS[@]}" \
 	#"${HYPR_PKGS[@]}" \
-	#"${NIRI_PKGS[@]}" \
 
 #######################################################################
 ### Disable repositeories so they aren't cluttering up the final image
