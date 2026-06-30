@@ -1,0 +1,12 @@
+[Unit]
+Description=udiskie mount daemon
+After=graphical-session.target
+Requisite=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+ExecStart=udiskie
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

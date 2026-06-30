@@ -124,8 +124,8 @@ HYPR_PKGS=(
 	hyprutils
 	hyprsysteminfo
 	hyprland-plugins
-	hyprland-contribs
-	hyprpolkitqgent
+	hyprland-contrib
+	hyprpolkitagent
 )
 
 
@@ -167,8 +167,8 @@ for repo in "${COPR_REPOS[@]}"; do
 	dnf5 -y copr disable "$repo"
 done
 
-systemctl --user enable vicinae
-systemctl --user enable udiskie
-systemctl --user enable hyprpolkitqgent
-systemctl --user enable hypridle
-systemctl --user enable hyprsunset
+systemctl --user --global enable vicinae
+#systemctl --user --global enable udiskie
+systemctl --user --global enable hyprpolkitagent
+systemctl --user --global enable hypridle
+systemctl --user --global enable hyprsunset
