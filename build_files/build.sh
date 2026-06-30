@@ -85,7 +85,6 @@ HYPR_DEPS=(
 	grim
 	grimblast
 	gvfs
-	hyprpanel
 	inxi
 	kvantum
 	libgtop2
