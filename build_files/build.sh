@@ -27,6 +27,8 @@ COPR_REPOS=(
 	ulysg/xwayland-satellite
 	#yalter/niri
 
+	che/nerd-fonts
+
 	lionheartp/Hyprland
 	quadratech188/vicinae # Raycast inspired launcher 
 )
@@ -63,7 +65,7 @@ dnf5 config-manager setopt terra.enabled=1 terra-extras.enabled=1
 # Because the nerd font symbols are mapped correctly, we can get
 # nerd font characters anywhere.
 FONTS=(
-	fontawesome-fonts-all
+	nerd-fonts
 )
  
 # Hyprland dependencies to be installed, based on
@@ -71,54 +73,36 @@ FONTS=(
 # from ml4w and other sources.
 HYPR_DEPS=(
 	aquamarine
-	ags
+	ags # A framework for crafting Wayland Desktop Shells
 	blueman
 	bluez
 	bluez-tools
 	brightnessctl
 	btop
 	cava
-	cliphist
-	eog
-	fuzzel
+	cliphist # Historique presse papier
+	#eog # Image viewer
+	# fuzzel # App launcher
 	gnome-bluetooth
 	grim
 	grimblast
-	gvfs
-	inxi
-	kvantum
-	libgtop2
-	mako
 	matugen
-	mpv
+	mpv # VLC Like
 	network-manager-applet
 	nodejs
 	nwg-look
 	pamixer
-	pavucontrol
-	playerctl
-	python3-pyquery
-	qalculate-gtk
-	qt5ct
-	qt6ct
-	rofi-wayland
+	pavucontrol # Volume controller
 	slurp
 	swappy
 	swaync
-	swww
-	tumbler
-	upower
+	# swww # Wallpaper manager (animation etc...)
 	wallust
 	waybar
-	wget2
-	wireplumber
 	wl-clipboard
 	wl-clip-persist
 	wlogout
-	wlr-randr
 	xarchiver
-	xdg-desktop-portal-gtk
-	xdg-desktop-portal-hyprland
 	xwayland-satellite
 	yad
 )
@@ -134,32 +118,34 @@ HYPR_PKGS=(
 	hyprshot
 	xdg-desktop-portal-hyprland
 	hyprsunset
+	hyprshutdown
+	hyprpwcenter
+	hyprqt6engine
 	hyprutils
+	hyprsysteminfo
+	hyprland-plugins
+	hyprland-contribs
+	hyprpolkitqgent
 )
 
 
 
-# SDDM not set up properly yet, so this is just a placeholder.
-# For now you'll have to invoke Hyprland from the command line.
-SDDM_PACKAGES=()
-if [[ $USE_SDDM == TRUE ]]; then
-	SDDM_PACKAGES=(
-		sddm
-		sddm-breeze
-		sddm-kcm
-		qt6-qt5compat
-	)
-fi
 
 # chrome etc are installed as flatpaks. We generally prefer that
 # for most things with GUIs, and homebrew for CLI apps. This list is
 # only special GUI apps that need to be installed at the system level.
 ADDITIONAL_SYSTEM_APPS=(
+	wireplumber
+	qt6-qtwayland
+	qt5-qtwayland
 )
 
 COOL_APPS=(
+	zsh
+	udiskie
+	kitty
 	vicinae
-	noctalia-shell
+	#noctalia-shell
 )
 
 # we do all package installs in one rpm-ostree command
@@ -181,22 +167,8 @@ for repo in "${COPR_REPOS[@]}"; do
 	dnf5 -y copr disable "$repo"
 done
 
-#######################################################################
-### Enable Services
-
-# TODO: these need to be run at first boot, not during image build
-
-# Setting Thunar as the default file manager
-# xdg-mime default thunar.desktop inode/directory
-# xdg-mime default thunar.desktop application/x-wayland-gnome-saved-search
-
-if [[ $USE_SDDM == TRUE ]]; then
-	log "Installing sddm...."
-	for login_manager in lightdm gdm lxdm lxdm-gtk3; do
-		if sudo dnf list installed "$login_manager" &>>/dev/null; then
-			sudo systemctl disable "$login_manager" 2>&1 | tee -a "$LOG"
-		fi
-	done
-	systemctl set-default graphical.target
-	systemctl enable sddm.service
-fi
+systemctl --user enable vicinae
+systemctl --user enable udiskie
+systemctl --user enable hyprpolkitqgent
+systemctl --user enable hypridle
+systemctl --user enable hyprsunset
