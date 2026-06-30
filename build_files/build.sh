@@ -38,14 +38,13 @@ for repo in "${COPR_REPOS[@]}"; do
 	fi
 done
 
-# log "Enable terra repositories..."
-
+# log "Enable native terra repositories..."
 # Bazzite disabled this for some reason so lets re-enable it again
 dnf5 config-manager setopt terra.enabled=1 terra-extras.enabled=1
 
-log "Enable Terra repository..."
+#log "Enable Terra repository..."
 # Ajout indispensable pour Noctalia
-dnf5 -y install --nogpgcheck --repofrompath "terra,https://repos.fyralabs.com/terra\$(rpm -E %fedora)" terra-release
+# dnf5 -y install --nogpgcheck --repofrompath "terra,https://repos.fyralabs.com/terra\$(rpm -E %fedora)" terra-release
 
 #######################################################################
 ## Install Packages
