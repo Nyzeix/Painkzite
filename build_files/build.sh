@@ -129,89 +129,43 @@ HYPR_DEPS=(
 	yad
 )
 
-HYPR_DEPS_1=(
-  bc
-  curl
-  findutils
-  gawk
-  git
-  grim
-  gvfs
-  gvfs-mtp
-  hyprpolkitagent
-  ImageMagick
-  inxi
-  jq
-  kitty
-  kvantum
-  nano
-  network-manager-applet
-  openssl
-  pamixer
-  pavucontrol
-  pipewire-alsa
-  pipewire-utils
-  playerctl
-  python3-requests
-  python3-pip
-  python3-pyquery
-  qt5ct
-  qt6ct
-  qt6-qtsvg
-  rofi
-  slurp
-  swappy
-  unzip # required later
-  waybar
-  wget2
-  wl-clipboard
-  wlogout
-  xdg-user-dirs
-  xdg-utils
-  yad
-)
-
-
-# the following packages can be deleted. however, dotfiles may not work properly
-hypr_package_2=(
-  brightnessctl
-  btop
-  cava
-  loupe
-  fastfetch
-  gnome-system-monitor
-  mousepad
-  mpv
-  mpv-mpris
-  nvtop
-  qalculate-gtk
-)
-
-copr_packages=(
-  nwg-displays
-  cliphist
-  nwg-look
-  SwayNotificationCenter
-  pamixer
-  swww
-  wallust
-)
-
 # Hyprland ecosystem packages
 HYPR_PKGS=(
 	hyprland
-	#hyprcursor
+	hyprcursor
 	hyprpaper
-	#hyprpicker
+	hyprpicker
 	hypridle
 	hyprlock
-	#hyprshot
-	#xdg-desktop-portal-hyprland
+	hyprshot
+	xdg-desktop-portal-hyprland
 	hyprsunset
 	hyprutils
 )
 
 
+# Waybar dependency
+WAYBAR_DEPS=(
+    gtkmm3
+    jsoncpp
+    libsigc++
+    fmt
+    wayland
+    chrono-date
+    spdlog
+    libgtk-3-dev [gtk-layer-shell]
+    gobject-introspection [gtk-layer-shell]
+    libgirepository1.0-dev [gtk-layer-shell]
+    libpulse [Pulseaudio module]
+    libnl [Network module]
+    libappindicator-gtk3 [Tray module]
+    libdbusmenu-gtk3 [Tray module]
+    libmpdclient [MPD module]
+    libsndio [sndio module]
+    libevdev [KeyboardState module]
+    xkbregistry
+    upower [UPower battery module]
+)
 
 
 # SDDM not set up properly yet, so this is just a placeholder.
@@ -226,15 +180,23 @@ if [[ $USE_SDDM == TRUE ]]; then
 	)
 fi
 
-
-
-# GUI apps that need to be installed at the system level.
-# Allacrity...
+# chrome etc are installed as flatpaks. We generally prefer that
+# for most things with GUIs, and homebrew for CLI apps. This list is
+# only special GUI apps that need to be installed at the system level.
 ADDITIONAL_SYSTEM_APPS=(
+	alacritty
+
+	# ghostty is broken in Fedora 42 right now
+	# ghostty
+
+	thunar
+	thunar-volman
+	thunar-archive-plugin
 )
 
 COOL_APPS=(
     vicinae
+    waybar
 )
 
 # we do all package installs in one rpm-ostree command
@@ -242,15 +204,11 @@ COOL_APPS=(
 log "Installing packages using dnf5..."
 dnf5 install --setopt=install_weak_deps=False -y \
 	"${FONTS[@]}" \
-	"${HYPR_DEPS_1}" \
-	"${hypr_package_2}" \
-	"${copr_packages}" \
 	"${SDDM_PACKAGES[@]}" \
 	"${ADDITIONAL_SYSTEM_APPS[@]}" \
         "${COOL_APPS}" \
 	#"${HYPR_DEPS[@]}" \
 	#"${HYPR_PKGS[@]}" \
-
 
 #######################################################################
 ### Disable repositeories so they aren't cluttering up the final image
