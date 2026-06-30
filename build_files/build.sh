@@ -20,7 +20,7 @@ log "Enable Copr repos..."
 COPR_REPOS=(
 	erikreider/SwayNotificationCenter # for swaync
 	errornointernet/packages
-	#heus-sueh/packages                # for matugen/swww, needed by hyprpanel
+	heus-sueh/packages                # for matugen/swww, needed by hyprpanel
 	leloubil/wl-clip-persist
 	# pgdev/ghostty
 	tofik/sway
@@ -60,9 +60,7 @@ done
 # Because the nerd font symbols are mapped correctly, we can get
 # nerd font characters anywhere.
 FONTS=(
-	fira-code-fonts
 	fontawesome-fonts-all
-	google-noto-emoji-fonts
 )
  
 # Hyprland dependencies to be installed, based on
@@ -78,7 +76,6 @@ HYPR_DEPS=(
 	btop
 	cava
 	cliphist
-	# egl-wayland
 	eog
 	fuzzel
 	gnome-bluetooth
@@ -88,21 +85,16 @@ HYPR_DEPS=(
 	hyprpanel
 	inxi
 	kvantum
-	# lib32-nvidia-utils
 	libgtop2
 	mako
 	matugen
 	mpv
-	# mpv-mpris
 	network-manager-applet
 	nodejs
-	# nvidia-dkms
-	# nvidia-utils
 	nwg-look
 	pamixer
 	pavucontrol
 	playerctl
-	# power-profiles-daemon
 	python3-pyquery
 	qalculate-gtk
 	qt5ct
@@ -164,7 +156,8 @@ ADDITIONAL_SYSTEM_APPS=(
 )
 
 COOL_APPS=(
-    vicinae
+	vicinae
+	noctalia-shell
 )
 
 # we do all package installs in one rpm-ostree command
@@ -174,7 +167,7 @@ dnf5 install --setopt=install_weak_deps=True -y \
 	"${FONTS[@]}" \
 	"${SDDM_PACKAGES[@]}" \
 	"${ADDITIONAL_SYSTEM_APPS[@]}" \
-        "${COOL_APPS}" \
+        "${COOL_APPS[@]}" \
 	"${HYPR_DEPS[@]}" \
 	"${HYPR_PKGS[@]}" \
 
