@@ -15,6 +15,10 @@ USE_SDDM=FALSE
 #######################################################################
 # Setup Repositories
 #######################################################################
+log "Enable Terra repository..."
+# Ajout indispensable pour Noctalia
+dnf5 -y install --nogpgcheck --repofrompath "terra,https://repos.fyralabs.com/terra\$(rpm -E %fedora)" terra-release
+
 
 log "Enable Copr repos..."
 COPR_REPOS=(
