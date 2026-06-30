@@ -25,6 +25,13 @@ COPR_REPOS=(
 	#yalter/niri
 
 	che/nerd-fonts
+	
+	# Caelestia
+	errornointernet/quickshell
+	celestelove/libcava
+	celestelove/app2unit
+	brycensranch/gpu-screen-recorder-git
+	celestelove/caelestia
 
 	lionheartp/Hyprland
 	quadratech188/vicinae # Raycast inspired launcher 
@@ -125,7 +132,12 @@ HYPR_PKGS=(
 	hyprpolkitagent
 )
 
-
+CAEL_DEPS=(
+	quickshell-git
+	libcava-devel
+	app2unit
+	gpu-screen-recorder-ui
+)
 
 
 # chrome etc are installed as flatpaks. We generally prefer that
@@ -143,6 +155,7 @@ COOL_APPS=(
 	kitty
 	vicinae
 	#noctalia-shell
+	caelestia-shell caelestia-cli
 )
 
 # we do all package installs in one rpm-ostree command
