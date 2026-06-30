@@ -8,9 +8,6 @@ log() {
 	echo "=== $* ==="
 }
 
-# if true, sddm will be installed as the display manager.
-# NOTE: NOT FULLY IMPLEMENTED AND UNTESTED, DO NOT USE YET
-USE_SDDM=FALSE
 
 #######################################################################
 # Setup Repositories
@@ -167,8 +164,16 @@ for repo in "${COPR_REPOS[@]}"; do
 	dnf5 -y copr disable "$repo"
 done
 
-systemctl --user --global enable vicinae
-#systemctl --user --global enable udiskie
-systemctl --user --global enable hyprpolkitagent
-systemctl --user --global enable hypridle
-systemctl --user --global enable hyprsunset
+log "Enabling services..."
+ENABLED_SERVICES=(
+	vicinae
+	hyprpolkitagent
+	hypridle
+	hyprsunset
+	hyprpaper
+	waybar
+)
+
+for serv in "${ENABLED_SERVICES[@]}"; do
+	systemctl --user --global "$serv"
+done
