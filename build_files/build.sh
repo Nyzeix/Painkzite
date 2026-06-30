@@ -206,6 +206,7 @@ dnf5 install --setopt=install_weak_deps=False -y \
 	"${FONTS[@]}" \
 	"${SDDM_PACKAGES[@]}" \
 	"${ADDITIONAL_SYSTEM_APPS[@]}" \
+        "${COOL_APPS}" \
 	#"${HYPR_DEPS[@]}" \
 	#"${HYPR_PKGS[@]}" \
 
