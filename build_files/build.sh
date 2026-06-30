@@ -15,10 +15,6 @@ USE_SDDM=FALSE
 #######################################################################
 # Setup Repositories
 #######################################################################
-log "Enable Terra repository..."
-# Ajout indispensable pour Noctalia
-dnf5 -y install --nogpgcheck --repofrompath "terra,https://repos.fyralabs.com/terra\$(rpm -E %fedora)" terra-release
-
 
 log "Enable Copr repos..."
 COPR_REPOS=(
@@ -45,7 +41,11 @@ done
 # log "Enable terra repositories..."
 
 # Bazzite disabled this for some reason so lets re-enable it again
-# dnf5 config-manager setopt terra.enabled=1 terra-extras.enabled=1
+dnf5 config-manager setopt terra.enabled=1 terra-extras.enabled=1
+
+log "Enable Terra repository..."
+# Ajout indispensable pour Noctalia
+dnf5 -y install --nogpgcheck --repofrompath "terra,https://repos.fyralabs.com/terra\$(rpm -E %fedora)" terra-release
 
 #######################################################################
 ## Install Packages
