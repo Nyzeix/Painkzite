@@ -23,12 +23,12 @@ COPR_REPOS=(
 	#heus-sueh/packages                # for matugen/swww, needed by hyprpanel
 	#leloubil/wl-clip-persist
 	# pgdev/ghostty
-	#solopasha/hyprland
 	#tofik/sway
 	#ulysg/xwayland-satellite
 	#yalter/niri
 
-    quadratech188/vicinae # Raycast inspired launcher 
+	lionheartp/Hyprland
+	quadratech188/vicinae # Raycast inspired launcher 
 )
 
 for repo in "${COPR_REPOS[@]}"; do
@@ -39,6 +39,7 @@ for repo in "${COPR_REPOS[@]}"; do
 done
 
 # log "Enable terra repositories..."
+
 # Bazzite disabled this for some reason so lets re-enable it again
 # dnf5 config-manager setopt terra.enabled=1 terra-extras.enabled=1
 
@@ -63,12 +64,11 @@ FONTS=(
 	fontawesome-fonts-all
 	google-noto-emoji-fonts
 )
-
+ 
 # Hyprland dependencies to be installed, based on
 # https://github.com/JaKooLit/Fedora-Hyprland/ with additions
 # from ml4w and other sources.
 HYPR_DEPS=(
-
 	aquamarine
 	aylurs-gtk-shell2
 	blueman
@@ -144,29 +144,6 @@ HYPR_PKGS=(
 )
 
 
-# Waybar dependency
-WAYBAR_DEPS=(
-    gtkmm3
-    jsoncpp
-    libsigc++
-    fmt
-    wayland
-    chrono-date
-    spdlog
-    libgtk-3-dev [gtk-layer-shell]
-    gobject-introspection [gtk-layer-shell]
-    libgirepository1.0-dev [gtk-layer-shell]
-    libpulse [Pulseaudio module]
-    libnl [Network module]
-    libappindicator-gtk3 [Tray module]
-    libdbusmenu-gtk3 [Tray module]
-    libmpdclient [MPD module]
-    libsndio [sndio module]
-    libevdev [KeyboardState module]
-    xkbregistry
-    upower [UPower battery module]
-)
-
 
 # SDDM not set up properly yet, so this is just a placeholder.
 # For now you'll have to invoke Hyprland from the command line.
@@ -184,31 +161,22 @@ fi
 # for most things with GUIs, and homebrew for CLI apps. This list is
 # only special GUI apps that need to be installed at the system level.
 ADDITIONAL_SYSTEM_APPS=(
-	alacritty
-
-	# ghostty is broken in Fedora 42 right now
-	# ghostty
-
-	thunar
-	thunar-volman
-	thunar-archive-plugin
 )
 
 COOL_APPS=(
     vicinae
-    waybar
 )
 
 # we do all package installs in one rpm-ostree command
 # so that we create minimal layers in the final image
 log "Installing packages using dnf5..."
-dnf5 install --setopt=install_weak_deps=False -y \
+dnf5 install --setopt=install_weak_deps=True -y \
 	"${FONTS[@]}" \
 	"${SDDM_PACKAGES[@]}" \
 	"${ADDITIONAL_SYSTEM_APPS[@]}" \
         "${COOL_APPS}" \
-	#"${HYPR_DEPS[@]}" \
-	#"${HYPR_PKGS[@]}" \
+	"${HYPR_DEPS[@]}" \
+	"${HYPR_PKGS[@]}" \
 
 #######################################################################
 ### Disable repositeories so they aren't cluttering up the final image
