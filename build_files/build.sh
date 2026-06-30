@@ -164,7 +164,7 @@ for repo in "${COPR_REPOS[@]}"; do
 	dnf5 -y copr disable "$repo"
 done
 
-log "Enabling services..."
+log "Enabling servbraveices..."
 ENABLED_SERVICES=(
 	vicinae
 	hyprpolkitagent
@@ -175,5 +175,5 @@ ENABLED_SERVICES=(
 )
 
 for serv in "${ENABLED_SERVICES[@]}"; do
-	systemctl --user --global "$serv"
+	systemctl --user --global enable "$serv"
 done
