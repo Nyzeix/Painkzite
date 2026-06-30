@@ -18,13 +18,13 @@ USE_SDDM=FALSE
 
 log "Enable Copr repos..."
 COPR_REPOS=(
-	#erikreider/SwayNotificationCenter # for swaync
-	#errornointernet/packages
+	erikreider/SwayNotificationCenter # for swaync
+	errornointernet/packages
 	#heus-sueh/packages                # for matugen/swww, needed by hyprpanel
-	#leloubil/wl-clip-persist
+	leloubil/wl-clip-persist
 	# pgdev/ghostty
-	#tofik/sway
-	#ulysg/xwayland-satellite
+	tofik/sway
+	ulysg/xwayland-satellite
 	#yalter/niri
 
 	lionheartp/Hyprland
