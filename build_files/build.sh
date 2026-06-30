@@ -71,7 +71,7 @@ FONTS=(
 # from ml4w and other sources.
 HYPR_DEPS=(
 	aquamarine
-	aylurs-gtk-shell2
+	ags
 	blueman
 	bluez
 	bluez-tools
