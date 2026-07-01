@@ -27,11 +27,11 @@ COPR_REPOS=(
 	che/nerd-fonts
 	
 	# Caelestia
-	errornointernet/quickshell
-	celestelove/libcava
-	celestelove/app2unit
-	brycensranch/gpu-screen-recorder-git
-	celestelove/caelestia
+	#errornointernet/quickshell
+	#celestelove/libcava
+	#celestelove/app2unit
+	#brycensranch/gpu-screen-recorder-git
+	#celestelove/caelestia
 
 	lionheartp/Hyprland
 	quadratech188/vicinae # Raycast inspired launcher 
@@ -129,13 +129,14 @@ HYPR_PKGS=(
 	hyprsysteminfo
 	hyprland-plugins
 	hyprland-contrib
+	hyprland-guiutils
 	hyprpolkitagent
 )
 
 CAEL_DEPS=(
 	quickshell-git
 	libcava-devel
-	app2unit
+	app2unitlog "Enabling services..."
 	gpu-screen-recorder-ui
 )
 
@@ -155,7 +156,7 @@ COOL_APPS=(
 	kitty
 	vicinae
 	#noctalia-shell
-	caelestia-shell caelestia-cli
+	#caelestia-shell caelestia-cli
 )
 
 # we do all package installs in one rpm-ostree command
@@ -170,14 +171,14 @@ dnf5 install --setopt=install_weak_deps=True -y \
 	"${HYPR_PKGS[@]}" \
 
 #######################################################################
-### Disable repositeories so they aren't cluttering up the final image
+### Disable repositories so they aren't cluttering up the final image
 
 log "Disable Copr repos to get rid of clutter..."
 for repo in "${COPR_REPOS[@]}"; do
 	dnf5 -y copr disable "$repo"
 done
 
-log "Enabling servbraveices..."
+log "Enabling services..."
 ENABLED_SERVICES=(
 	vicinae
 	hyprpolkitagent
@@ -186,6 +187,11 @@ ENABLED_SERVICES=(
 	hyprpaper
 	waybar
 )
+
+#log "Enabling hyprpn plugins..."
+#hyprpm add https://github.com/fedsfarm/gloview
+#hyprpm enable gloview
+
 
 for serv in "${ENABLED_SERVICES[@]}"; do
 	systemctl --user --global enable "$serv"
