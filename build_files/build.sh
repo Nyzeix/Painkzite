@@ -2,6 +2,10 @@
 
 set -ouex pipefail
 
+# Copy the contents of system_files/ of the git repo to /
+cp -avf "/ctx/system_files"/. /
+
+
 # RELEASE="$(rpm -E %fedora)"
 
 log() {
@@ -101,7 +105,7 @@ HYPR_DEPS=(
 	swappy
 	swaync
 	# swww # Wallpaper manager (animation etc...)
-	wallust
+	wallust # Adaptative color
 	waybar
 	wl-clipboard
 	wl-clip-persist
@@ -196,3 +200,5 @@ ENABLED_SERVICES=(
 for serv in "${ENABLED_SERVICES[@]}"; do
 	systemctl --user --global enable "$serv"
 done
+
+

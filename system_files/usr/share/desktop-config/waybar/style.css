@@ -1,0 +1,138 @@
+/* * 🌌 L€yzS Ricing - The Ultimate Waybar Architecture 🌌
+ * 🛠️  Designed & Crafted by L€yzS
+ * 🚀  A dynamic, modern, and pixel-perfect UI for Arch + Hyprland.
+ *
+ * [EN] This bar is the interface through which the system speaks to the world. Every pixel is designed for fluidity.
+ */
+
+/* 🎨 DYNAMIC COLOR ENGINE */
+/* [EN] Pywal/Matugen connection that automatically synchronizes colors based on the wallpaper. */
+@import "/tmp/desktop-config/colors.css";
+
+/* 🛠️ GLOBAL STYLING */
+* {
+    /* [EN] The best font combination for readability and aesthetics. */
+    font-family: "Symbols Nerd Font", sans-serif; 
+    font-weight: bold;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* 🛸 MAIN BAR CONTAINER */
+window#waybar {
+    /* [EN] Completely transparent background to maintain the floating window effect. */
+    background: transparent;
+}
+
+/* --- 🧊 WORKSPACES --- */
+#workspaces button {
+    background-color: @background;
+    color: @foreground;
+    border-radius: 50%; /* [EN] Modern circular design */
+    margin: 5px 4px;
+    padding: 0;
+    min-width: 23px;
+    min-height: 23px;
+    font-size: 15px;
+    font-weight: 800;
+    border: 2px solid @on_backgroud; /* [EN] Accent color armor */
+    
+    box-shadow: none;
+    outline: none;
+    /* [EN] Special curve for smooth transitions */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#workspaces button.active {
+    background-color: @primary_container;
+    color: @on_primary_container;
+    border: 2px solid @outline; 
+    
+    /* [EN] Constant border strategy to prevent shifting on active buttons. */
+    box-shadow: none;
+    outline: none;
+    background-clip: border-box;
+    -gtk-outline-radius: 50%;
+}
+
+#workspaces button:hover {
+    background-color: @surface_dim;
+    color: @on_surface_dim;
+    border: 2px solid @outline_variant;
+}
+
+/* --- 💎 SYSTEM MODULES --- */
+#clock, 
+#pulseaudio, 
+#tray, 
+#cpu, 
+#memory, 
+#custom-headset, 
+#custom-notification, 
+#custom-media {
+    background-color: @background; 
+    color: @primary;
+    border-radius: 15px; /* [EN] Soft curved corners */
+    padding: 0px 10px;
+    margin: 5px 2px; 
+    border: 2px solid @outline;
+    transition: all 0.3s ease;
+}
+
+#cpu {
+}
+
+/* 🎧 HEADSET (SteelSeries) SPECIAL TUNING */
+#custom-headset {
+    padding: 0px 9px;
+    /* [EN] Millimetric adjustment to maintain the icon's vertical alignment. */
+    margin-top: 5px; 
+    margin-bottom: 5px;
+}
+
+#custom-notification {
+    padding: 0px 13px 0px 11px; 
+}
+
+/* ⚡ VISUAL SEPARATOR */
+#custom-separator {
+    color: @secondary;      
+    font-size: 23px;
+    padding: 0;      
+    margin: 0px -2px;
+    background: transparent;
+}
+
+/* 🛑 POWER MENU */
+#custom-power {
+    background-color: @background;
+    color: @color9;            
+    border: 2px solid @color9; 
+    border-radius: 50%;
+    min-width: 25px;
+    min-height: 25px;
+    font-size: 13px;
+    margin: 4px 10px 5px 5px;
+    padding-right: 2px; 
+    transition: all 0.3s ease;
+}
+
+#custom-power:hover {
+    background-color: @color9;
+    color: @background;
+    border: 2px solid @background;
+}
+
+/* --- 🌈 INTERACTIVE HOVER EFFECTS --- */
+#clock:hover, 
+#pulseaudio:hover, 
+#custom-headset:hover, 
+#tray:hover, 
+#memory:hover, 
+#cpu:hover, 
+#custom-notification:hover {
+    /* [EN] Color swap during mouse interaction. */
+    background-color: @color9;
+    color: @background;
+}
