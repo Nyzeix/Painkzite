@@ -1,14 +1,26 @@
 #!/bin/bash
 
-# Status in Min:Sec 
-current_status="$(date -u -d @$(playerctl position) +"%M:%S" | head -c -1)"
+if ! playerctl position >/dev/null 2>&1; then
+    echo "Aucun média joué"
+else
+    # Status in MM:SS
+    current_status=$(date -u -d "@$(playerctl position)" +"%M:%S")
 
-playerctl_metadata="$(echo $(($(playerctl metadata mpris:length)/1000000)) | head -c -1)"
-total="$(date -u -d @$playerctl_metadata +"%M:%S" | head -c -1)"
+    # Total nedai duration(converted in SS)
+    playerctl_metadata=$(( $(playerctl metadata mpris:length) / 1000000 ))
 
-tooltip="$(echo -n $current_status / $total | jq -R -s '.')"
+    # Total media duration in MM:SS
+    total=$(date -u -d "@$playerctl_metadata" +"%M:%S")
 
-# Audio played
-audio_played="$(playerctl metadata --format '{{ artist }} - {{ title }}' | head -c -1 | jq -R -s '.')"
+    # Final value to show in tooltip
+    tooltip="$current_status / $total"
 
-echo "{\"text\":$audio_played, \"tooltip\":$tooltip}"
+    # Média en cours
+    audio_played=$(playerctl metadata --format '{{ artist }} - {{ title }}')
+
+    # Data output
+    jq -cn \
+    --arg text "$audio_played" \
+    --arg tooltip "$tooltip" \
+    '{text: $text, tooltip: $tooltip}'
+fi

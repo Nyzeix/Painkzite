@@ -7,7 +7,7 @@
 
 /* 🎨 DYNAMIC COLOR ENGINE */
 /* [EN] Pywal/Matugen connection that automatically synchronizes colors based on the wallpaper. */
-@import "/tmp/desktop-config/colors.css";
+@import "/tmp/desktop-config/themes/waybar.css";
 
 /* 🛠️ GLOBAL STYLING */
 * {
@@ -68,27 +68,22 @@ window#waybar {
 #tray, 
 #cpu, 
 #memory, 
-#custom-headset, 
+#custom-mouse, 
+#upower,
 #custom-notification, 
 #custom-media {
     background-color: @background; 
     color: @primary;
-    border-radius: 15px; /* [EN] Soft curved corners */
+    border-radius: 15px;
     padding: 0px 10px;
     margin: 5px 2px; 
     border: 2px solid @outline;
     transition: all 0.3s ease;
 }
 
-#cpu {
-}
-
-/* 🎧 HEADSET (SteelSeries) SPECIAL TUNING */
-#custom-headset {
-    padding: 0px 9px;
-    /* [EN] Millimetric adjustment to maintain the icon's vertical alignment. */
-    margin-top: 5px; 
-    margin-bottom: 5px;
+#tray menu {
+    border-radius: 15px;
+    background-color: @background;
 }
 
 #custom-notification {

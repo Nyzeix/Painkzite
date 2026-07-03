@@ -1,0 +1,15 @@
+[Unit]
+Description=Matugen wallpaper themes configurator
+PartOf=graphical-session.target
+Requires=graphical-session.target
+Before=hyprpaper.service
+After=graphical-session.target
+ConditionEnvironment=WAYLAND_DISPLAY
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/share/desktop-config/matugen/scripts/set-wallpaper.sh
+
+[Install]
+WantedBy=graphical-session.target

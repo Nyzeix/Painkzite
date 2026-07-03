@@ -159,6 +159,7 @@ COOL_APPS=(
 	udiskie
 	kitty
 	vicinae
+	tilix
 	#noctalia-shell
 	#caelestia-shell caelestia-cli
 )
@@ -190,6 +191,7 @@ ENABLED_SERVICES=(
 	hyprsunset
 	hyprpaper
 	waybar
+	matugen
 )
 
 #log "Enabling hyprpn plugins..."

@@ -1,3 +1,39 @@
+TODO: 
+- Decrire environnement du repo
+- Theme for SwayNC, Steam, Obsidian, Discord, btop, hyprland, vscode
+
+
+
+Bloc-notes:
+
+### Gestion des wallpapers
+Symlink to current selected wallpaper
+> ~/.local/state/current-wallpaper
+
+Symlink update:
+> ln -sf "$NEW_WP" ~/.local/state/current-wallpaper
+
+Matugen command to define wallpaper and theme
+> matugen image "$(readlink -f ~/.local/state/current-wallpaper)" -c /usr/share/desktop-config/matugen/config.toml --show-colors
+
+### Fonctionnement
+- Define SymLink
+> ln -sf "$WALLPAPER_PATH" ~/.local/state/current-wallpaper
+- Save themes in:
+> ~/.local/share/desktop-config/themes/
+or
+> ~/.local/share/desktop-config/themes/$WP_NAME/
+- Use custom script to:
+    - Update the SymLink
+    - Run Matugen command
+        - Inside Matugen Config File, it is actually setting the wallpaper to the main screen using hyprpaper.
+        I do not know if this is a good practice.
+        - Reload every apps using custom themes
+
+
+---
+
+
 # image-template
 
 This repository is meant to be a template for building your own custom [bootc](https://github.com/bootc-dev/bootc) image. This template is the recommended way to make customizations to any image published by the Universal Blue Project.

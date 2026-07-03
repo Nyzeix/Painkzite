@@ -1,7 +1,7 @@
 {
-    /* * 🌌 L€yzS Ricing - Waybar Configuration 🌌
-     * 🛠️  Architected by L€yzS
-     * 🖥️  Output: DP-1 | Setup: Floating Top Bar
+    /* * 🌌 Credit to L€yzS Ricing for the initial Waybar config 🌌
+     * 🛠️  Architected by L€yzS and Nyzeix
+     * 🖥️  Output: All Screen | Setup: Floating Top Bar
      */
 
     "reload_config_on_change": true,
@@ -20,7 +20,7 @@
     "passthrough": false,
     "gtk-layer-shell": true,
 
-    /* [TR] Modül Dizilimleri / [EN] Module Layouts */
+    /* [EN] Module Layouts */
     "modules-left": ["clock", "pulseaudio", "custom/media"],    
     "modules-center": ["hyprland/workspaces"],
     "modules-right": [
@@ -28,18 +28,19 @@
         "cpu", 
         "memory", 
         "custom/separator", 
-        "custom/headset", 
+        "custom/mouse", 
+        //"upower#Mouse",
         "custom/notification", 
         "custom/power"
     ],
 
-    /* [TR] Saat ve Tarih / [EN] Clock & Date */
+    /* [EN] Clock & Date */
     "clock": {
         "format": " {:%H:%M:%S}",
         "interval": 1
     },
 
-    /* [TR] Ses Kontrolü / [EN] Audio Control */
+    /* [EN] Audio Control */
     "pulseaudio": {
         "format": "{icon} {volume}%",
         "format-muted": "",
@@ -47,7 +48,7 @@
         "on-click": "pavucontrol"
     },
 
-    /* [TR] Çalışma Alanları / [EN] Workspaces */
+    /* [EN] Workspaces */
     "hyprland/workspaces": {
         "format": "{name}",
         "on-click": "activate",
@@ -56,42 +57,55 @@
         }
     },
 
-    /* [TR] Sistem Tepsisi / [EN] System Tray */
+    /* [EN] System Tray */
     "tray": {
         "icon-size": 16,
-        "spacing": 10
+        "spacing": 10,
+        "show-passive-items": true
     },
 
-    /* [TR] İşlemci Kullanımı / [EN] CPU Usage */
+    /* [EN] CPU Usage */
     "cpu": {
         "interval": 1,
         "format": " {usage:02}%",
         "on-click": "tilix -e btop"
     },
 
-    /* [TR] Bellek Kullanımı / [EN] Memory Usage */
+    /* [EN] Memory Usage */
     "memory": {
         "interval": 1, 
         "format": "  {used:0.1f}G/{total:0.1f}G", 
         "on-click": "tilix -e btop"
     },
 
-    /* [TR] Ayırıcı Çizgi / [EN] Visual Separator */
+    /* [EN] Visual Separator */
     "custom/separator": { "format": "|" },
 
-    /* [TR] Arctis Nova 5 Pil Göstergesi / [EN] Arctis Nova 5 Battery Indicator */
-    "custom/headset": {
-        "format": "󰋋 {icon} {text}%",
+    /* [EN] Mouse Battery Indicator */
+    "custom/mouse": {
+        "format": "󰍽  {icon}  {text}%",
         "format-icons": ["", "", "", "", ""],
         "return-type": "json",
-        "exec": "val=$(headsetcontrol -b | grep -oP 'Level: \\K\\d+'); if [ -z \"$val\" ]; then echo '{\"text\": \"0\", \"percentage\": 0}'; else echo \"{\\\"text\\\": \\\"$val\\\", \\\"percentage\\\": $val}\"; fi",
-        "interval": 30,
-        "tooltip": true,
-        "tooltip-format": "TODO Keyboard battery",
-        "on-click": "headsetcontrol -b"
+        //"exec": "upower -i /org/freedesktop/UPower/devices/battery_hidpp_battery_0 | grep percentage | grep -o '[0-9]\\+'",
+        "exec": "val=$(upower -i /org/freedesktop/UPower/devices/battery_hidpp_battery_0 | grep percentage | grep -o '[0-9]\\+'); if [ -z \"$val\" ]; then echo '{\"text\": \"0\", \"percentage\": 0}'; else echo \"{\\\"text\\\": \\\"$val\\\", \\\"percentage\\\": $val}\"; fi",
+        "interval": 1,
+        "tooltip": false
     },
 
-    /* [TR] Bildirim Merkezi (SwayNC) / [EN] Notification Center (SwayNC) */
+    /* [EN] Keyboard Battery Indicator */
+    /*"upower#Mouse": {
+        "native-path": "/org/freedesktop/UPower/devices/battery_hidpp_battery_0",
+        //"model": "Logitech G502 X LS",
+        "icon-size": 20,
+        "hide-if-empty": false,
+        "format":"{percentage}%",
+        "format-alt":"truc random pour confirmer2",
+        "tooltip": true,
+        "tooltip-spacing": 20,
+        "show-icon": true
+    },*/
+
+    /* [EN] Notification Center (SwayNC) */
     "custom/notification": {
         "tooltip": false,
         "format": "{icon}",
@@ -113,14 +127,15 @@
         "escape": true
     }, 
 
-    /* [TR] Güç Menüsü (Wlogout) / [EN] Power Menu (Wlogout) */
+    /* [EN] Power Menu (Wlogout) */
     "custom/power": {
         "format": "⏻",
         "on-click": "wlogout -b 5 -c 0 -p layer-shell",
         "tooltip": false
     },
-
-    /* [TR] Medya Oynatıcı Kontrolü / [EN] Media Player Control */
+    
+    // TODO: USE DEFAULT AVAILABLE TOOL MPRIS AVAILABLE IN WAYBAR
+    /* [EN] Media Player Control */
     "custom/media": {
         "format": "󰎇  {}", 
         "max-length": 40,
@@ -130,6 +145,7 @@
         "tooltip": true,
         "on-click": "playerctl play-pause",
         "on-scroll-up": "playerctl next",
-        "on-scroll-down": "playerctl previous"
+        "on-scroll-down": "playerctl previous",
+        "escape": true
     }
 }

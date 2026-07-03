@@ -49,9 +49,9 @@ hl.monitor({
 ---------------------
 
 -- Set programs that you use
-local terminal    = "kitty"
+local terminal    = "zsh"
 local fileManager = "dolphin"
-local menu        = "hyprlauncher"
+-- local menu        = "hyprlauncher" -- Vicinae does the job
 
 
 -------------------
@@ -64,7 +64,6 @@ local menu        = "hyprlauncher"
 -- Or execute your favorite apps at launch like this:
 --
 hl.on("hyprland.start", function ()
-hl.exec_cmd(terminal)
 hl.exec_cmd("nm-applet")
 end)
 
@@ -177,8 +176,8 @@ hl.window_rule({
     match={class="org.pulseaudio.pavucontrol"},
     float=true,
     stay_focused=true,
-    animation="slidevert top",
-    move={100, 100},
+    animation="slidevert 50% top",
+    move={16, 50},
     --"cursor_x-(window_w*0.1))", "(cursor_y-(window_h*0.1))"
     size={"(monitor_w*0.3)", "(monitor_h*0.5)"}
 })
@@ -313,7 +312,7 @@ local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
+-- hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 

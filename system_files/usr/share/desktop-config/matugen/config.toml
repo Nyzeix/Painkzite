@@ -8,12 +8,24 @@ set = true
 # The base command to run for applying the wallpaper.
 # Keywords like {{ image }} or anything that works inside of hooks works here.
 # You could also set a static color if you use the color keywords and the wallpaper setter supports it.
+
 # Hard coded for main screen
 # TODO script that generate a theme with matugen and then update selected screen with hyprpaper
 command = "hyprctl hyprpaper wallpaper 'DP-1,{{image}},'"
 
 
 [templates.waybar]
-input_path = 'colors.css'
-output_path = '/tmp/desktop-config/colors.css'
+input_path = 'templates/waybar.css'
+output_path = '/tmp/desktop-config/themes/waybar.css'
 post_hook = "pkill -SIGUSR2 waybar"
+
+
+[templates.kitty]
+input_path = 'templates/kitty.conf'
+output_path = '/tmp/desktop-config/themes/kitty-matugen.conf'
+post_hook = "pkill -SIGUSR1 kitty"
+
+[templates.swaync]
+input_path = "templates/swaync.conf"
+output_path = "/tmp/desktop-config/themes/swaync-colors.css"
+post_hook = "swaync-client -rs"
